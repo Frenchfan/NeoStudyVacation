@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Home Page</title>
+    </head>
+    <body>
+        <h1>Калькулятор отпускных</h1>
+        <h2>Список расчетов</h2>
+
+        <table>
+            <tr>
+                <th>Сумма к выплате</th>
+                <th>Среднемесячная зарплата за 12 месяцев</th>
+                <th>Дней отпуска</th>
+            </tr>
+            <tr th:each="p: ${payments}" >
+                <td th:text="${p.toPay}"></td>
+                <td th:text="${p.salary}"></td>
+                <td th:text="${p.vacationDaysAmount}"></td>
+
+            </tr>
+        </table>
+
+        <h2>Введите данные</h2>
+        <form action="/calc" method="post">
+            Зарплата: <input type="number" step="any" name="salary"><br />
+            Дней отпуска (не более 60, иначе забудете, как работать): <input type="number" max=60 name="vacationDaysAmount"><br />
+
+            <button type="submit">Рассчитать</button>
+        </form>
+        <h2>Укажите точные даты отпуска</h2>
+        <form action="/calc" method="post">
+            Начало отпуска: <input type="date" min="<?php echo date('Y-m-d'); ?>" name="start"><br />
+            Окончание отпуска: <input type="date" min="<?php echo date('Y-m-d'); ?>" name="finish"><br />
+            Фактическое кол-во дней отпуска будет рассчитано по этим датам<br />
+
+            <button type="submit">Рассчитать с датами</button>
+        </form>
+    </body>
+</html>
